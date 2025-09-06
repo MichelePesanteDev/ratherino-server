@@ -6,13 +6,22 @@ wss.on('connection', (ws) => {
     console.log('New client connected');
 
     ws.on('message', (message) => {
-        console.log('Received:', message);
-        if (message.key === 'topic') {
-            wss.clients.forEach((client) => {
-                if (client.readyState === client.OPEN) {
-                    client.send('Il topic scelto è: ' + message.body);
-                }
-            });
+        const text = message.toString();
+        console.log('Raw message:', text);
+
+        try {
+            const data = JSON.parse(text);
+            console.log('Parsed object:', data);
+
+            if (data.key === 'topic') {
+                wss.clients.forEach((client) => {
+                    if (client.readyState === client.OPEN) {
+                        client.send('Il topic scelto è: ' + data.body);
+                    }
+                });
+            }
+        } catch (err) {
+            console.error('Messaggio non in formato JSON:', err);
         }
     });
 
