@@ -4,7 +4,7 @@
   "description": "A simple WebSocket application using the ws package.",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "dev": "node src/server.js"
   },
   "dependencies": {
     "ws": "^8.0.0"
